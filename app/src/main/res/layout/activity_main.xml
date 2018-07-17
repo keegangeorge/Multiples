@@ -10,8 +10,12 @@
 
     <!-- Button Section START -->
     <LinearLayout
+        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:orientation="horizontal">
 
         <!-- Button to fetch random numbers -->
@@ -19,8 +23,8 @@
             android:id="@+id/retrieve_random_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="3dp"
+            android:layout_weight="2"
             android:backgroundTint="@color/colorOutline"
             android:text="@string/str_retrieve_random_num"
             android:textAllCaps="true"
@@ -32,9 +36,9 @@
             android:id="@+id/btn_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
             android:backgroundTint="@color/colorOutline"
             android:text="@string/str_clear"
+            android:layout_weight="1"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textStyle="normal" />
