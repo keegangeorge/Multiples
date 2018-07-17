@@ -102,16 +102,62 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public boolean onDrag(View v, DragEvent event) {
-        return false;
+        switch (event.getAction()) {
+            case DragEvent.ACTION_DRAG_ENTERED:
+                v.setBackground(ContextCompat.getDrawable(this, R.drawable.card_highlighted));
+                break;
+            case DragEvent.ACTION_DRAG_EXITED:
+                v.setBackground(ContextCompat.getDrawable(this, R.drawable.card_normal));
+                break;
+            case DragEvent.ACTION_DROP:
+                View view = (View) event.getLocalState();
+                TextView itemDropped = (TextView) view;
+                int fetchedValue = Integer.valueOf((String) itemDropped.getText());
+                int multipleOf = -1;
+                if (v.getId() == R.id.card_multiple_2) {
+                    multipleOf = 2;
+                } else if (v.getId() == R.id.card_multiple_3) {
+                    multipleOf = 3;
+                } else if (v.getId() == R.id.card_multiple_5) {
+                    multipleOf = 5;
+                } else if (v.getId() == R.id.card_multiple_10) {
+                    multipleOf = 10;
+                }
+
+                if (multipleOf > 0) {
+                    if (fetchedValue % multipleOf == 0) {
+                        String cardText = (String) ((TextView) v).getText();
+                        cardText = cardText + "\n" + fetchedValue;
+                        itemDropped.setOnTouchListener(new View.OnTouchListener() {
+                            @Override
+                            public boolean onTouch(View v, MotionEvent event) {
+                                return true;
+                            }
+                        });
+                        itemDropped.setText("");
+
+                    }
+                }
+                v.setBackground(ContextCompat.getDrawable(this, R.drawable.card_normal));
+                break;
+        }
+        return true;
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            ClipData clip = ClipData.newPlainText("", "");
+            View.DragShadowBuilder shadow = new View.DragShadowBuilder(v);
+            v.startDrag(clip, shadow, v, 0);
+            return true;
+        }
         return false;
     }
 
+
     public String readJSONData(String myUrl) throws IOException {
-        InputStream inptStream = null;
+        InputStream inputStream = null;
         int len = 2500;
 
         URL url = new URL(myUrl);
