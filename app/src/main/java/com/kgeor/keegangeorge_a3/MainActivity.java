@@ -57,6 +57,20 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.retrieve_random_num:
+                break;
+            case R.id.btn_clear:
+                randomText1.setText(R.string.str_numPlaceholder);
+                randomText2.setText(R.string.str_numPlaceholder);
+                randomText3.setText(R.string.str_numPlaceholder);
+                randomText4.setText(R.string.str_numPlaceholder);
+
+                multipleOfTwo.setText(R.string.str_multiple_2);
+                multipleOfThree.setText(R.string.str_multiple_3);
+                multipleOfTen.setText(R.string.str_multiple_10);
+                multipleOfFive.setText(R.string.str_multiple_5);
+        }
 
     }
 
