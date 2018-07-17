@@ -171,8 +171,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             listener = listen;
         }
 
-        @TargetApi(Build.VERSION_CODES.KITKAT)
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected void onPostExecute(String s) {
             try {
