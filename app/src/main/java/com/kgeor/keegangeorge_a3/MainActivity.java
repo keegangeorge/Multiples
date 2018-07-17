@@ -1,10 +1,15 @@
 package com.kgeor.keegangeorge_a3;
 
 import android.annotation.TargetApi;
+import android.content.ClipData;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,6 +22,7 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,11 +41,13 @@ import java.net.URL;
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener, View.OnDragListener, View.OnClickListener {
     // FIELDS //
     private static final String TAG = MainActivity.class.getSimpleName();
+    protected static final String FETCHED_LINK = "https://qrng.anu.edu.au/API/jsonI.php?length=4&type=uint8";
 
     // Variables for storing GUI elements //
     TextView randomText1, randomText2, randomText3, randomText4;
     TextView[] randomButtons;
     TextView multipleOfTwo, multipleOfThree, multipleOfTen, multipleOfFive;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.retrieve_random_num:
+                new getRandomNum(this).execute(FETCHED_LINK);
                 break;
             case R.id.btn_clear:
                 randomText1.setText(R.string.str_numPlaceholder);
