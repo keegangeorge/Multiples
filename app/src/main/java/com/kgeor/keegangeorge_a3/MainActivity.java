@@ -127,16 +127,16 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             connection.connect();
             int response = connection.getResponseCode();
             Log.d(TAG, "THE REQUESTED RESPONSE IS: " + response);
-            inptStream = connection.getInputStream();
+            inputStream = connection.getInputStream();
 
             // Convert InputStream to String:
-            String streamToString = readStream(inptStream, len);
+            String streamToString = readStream(inputStream, len);
             return streamToString;
 
             // Ensures the closing of InputStream after finishing using it in the application:
         } finally {
-            if (inptStream != null) {
-                inptStream.close();
+            if (inputStream != null) {
+                inputStream.close();
                 connection.disconnect();
             }
         }
