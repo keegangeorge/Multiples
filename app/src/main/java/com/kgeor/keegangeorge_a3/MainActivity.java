@@ -40,14 +40,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         // LINK CARD REFERENCES: XML TO JAVA //
         multipleOfTwo = findViewById(R.id.card_multiple_2);
         multipleOfThree = findViewById(R.id.card_multiple_3);
-        multipleofTen = findViewById(R.id.card_multiple_10);
-        multipleofFive = findViewById(R.id.card_multiple_5);
+        multipleOfTen = findViewById(R.id.card_multiple_10);
+        multipleOfFive = findViewById(R.id.card_multiple_5);
 
         // DRAG LISTENERS FOR CARDS //
         multipleOfTwo.setOnDragListener(this);
         multipleOfThree.setOnDragListener(this);
-        multipleofTen.setOnDragListener(this);
-        multipleofFive.setOnDragListener(this);
+        multipleOfTen.setOnDragListener(this);
+        multipleOfFive.setOnDragListener(this);
 
         // BUTTON CLICK LISTENERS FOR TOP BUTTONS //
         btnRandom.setOnClickListener(this);
