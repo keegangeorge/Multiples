@@ -93,5 +93,85 @@
     </LinearLayout>
     <!-- Retrieved Text END -->
 
+    <!-- Card Section START -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:gravity="center"
+        android:orientation="vertical">
 
+        <!-- CARD ROW #1 START -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!-- ROW 1 CARD 1 (Multiple of 2) -->
+            <TextView
+                android:id="@+id/card_multiple_2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_normal"
+                android:padding="5dp"
+                android:text="@string/str_multiple_2"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- ROW 1 CARD 2 (Multiple of 3) -->
+            <TextView
+                android:id="@+id/card_multiple_3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_normal"
+                android:padding="5dp"
+                android:text="@string/str_multiple_3"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <!-- CARD ROW #1 END -->
+
+        <!-- CARD ROW #2 START -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!-- ROW 1 CARD 1 (Multiple of 10) -->
+            <TextView
+                android:id="@+id/card_multiple_10"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_normal"
+                android:padding="5dp"
+                android:text="@string/str_multiple_10"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <!-- ROW 1 CARD 2 (Multiple of 5) -->
+            <TextView
+                android:id="@+id/card_multiple_5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/card_normal"
+                android:padding="5dp"
+                android:text="@string/str_multiple_5"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+        <!-- CARD ROW #2 END -->
+    </LinearLayout>
+    <!-- Card Section END -->
 </LinearLayout>
