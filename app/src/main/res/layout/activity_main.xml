@@ -6,17 +6,19 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     tools:context=".MainActivity">
 
     <!-- Button Section START -->
     <LinearLayout
-        android:layout_gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <!-- Button to fetch random numbers -->
         <Button
@@ -36,9 +38,9 @@
             android:id="@+id/btn_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:backgroundTint="@color/colorOutline"
             android:text="@string/str_clear"
-            android:layout_weight="1"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textStyle="normal" />
@@ -122,8 +124,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/card_normal"
+                android:gravity="top|center"
                 android:padding="5dp"
                 android:text="@string/str_multiple_2"
+                android:textColor="@color/colorOutline"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -135,8 +139,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/card_normal"
+                android:gravity="top|center"
                 android:padding="5dp"
                 android:text="@string/str_multiple_3"
+                android:textColor="@color/colorOutline"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -158,8 +164,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/card_normal"
+                android:gravity="top|center"
                 android:padding="5dp"
                 android:text="@string/str_multiple_10"
+                android:textColor="@color/colorOutline"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -171,8 +179,10 @@
                 android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/card_normal"
+                android:gravity="top|center"
                 android:padding="5dp"
                 android:text="@string/str_multiple_5"
+                android:textColor="@color/colorOutline"
                 android:textSize="18sp"
                 android:textStyle="bold" />
         </LinearLayout>
