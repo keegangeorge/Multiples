@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">KeeganGeorge_A3</string>
+    <string name="str_retrieve_random_num">Retrieve random numbers</string>
+    <string name="str_clear">Clear</string>
 </resources>
