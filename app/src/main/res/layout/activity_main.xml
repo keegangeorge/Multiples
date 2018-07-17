@@ -40,5 +40,58 @@
     </LinearLayout>
     <!-- Button Section END-->
 
+    <!-- Retrieved Text START -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/btn_random_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorTextViewBG"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/str_numPlaceholder" />
+
+        <TextView
+            android:id="@+id/btn_random_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorTextViewBG"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/str_numPlaceholder" />
+
+        <TextView
+            android:id="@+id/btn_random_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorTextViewBG"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/str_numPlaceholder" />
+
+        <TextView
+            android:id="@+id/btn_random_4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@color/colorTextViewBG"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/str_numPlaceholder" />
+    </LinearLayout>
+    <!-- Retrieved Text END -->
+
 
 </LinearLayout>
