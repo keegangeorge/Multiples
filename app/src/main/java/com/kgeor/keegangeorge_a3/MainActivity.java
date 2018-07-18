@@ -32,6 +32,7 @@ import java.net.URL;
 
 /**
  * MainActivity class for Random Numbers application
+ * Implements touch, drag, and click listener interfaces
  *
  * @author Keegan George
  * @version 1.0
@@ -46,11 +47,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     TextView[] randomButtons;
     TextView multipleOfTwo, multipleOfThree, multipleOfTen, multipleOfFive;
 
+    // METHODS //
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // CHECKS NETWORK CONNECTION AND SHARES RESULTS //
         checkConnection();
 
         // LINKING TEXT VIEW REFERENCES: XML TO JAVA //
@@ -89,25 +92,51 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     } // end onCreate()
 
 
+    /**
+     * Method responsible for checking if device is connected to a network and will display a toast
+     * accordingly in addition to the type of network being used.
+     */
     public void checkConnection() {
+        /*
+         * References the network connectivity service to receive information regarding the devices
+         * network connectivity state
+         */
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
+        /*
+         * When network information is present and connected, check for network type and reveal
+         * results in a toast message
+         */
         if (networkInfo != null && networkInfo.isConnected()) {
-            String networkInformation = networkInfo.getTypeName().toString();
+            String networkInformation = networkInfo.getTypeName();
             Toast.makeText(this, "CONNECTED TO: " + networkInformation, Toast.LENGTH_SHORT).show();
 
+            /*
+             * When there is no network connection present, indicate results to user
+             */
         } else {
             Toast.makeText(this, "NETWORK CONNECTION UNAVAILABLE", Toast.LENGTH_LONG).show();
         }
-    }
+    } // checkConnection() method end
 
+    /**
+     * Method responsible for handling device click events
+     *
+     * @param v the current view being clicked
+     */
     @Override
     public void onClick(View v) {
+        /*
+         * Checks view id's to see what button is being clicked on and executes commands based on
+         * the resulting view
+         */
         switch (v.getId()) {
+            // Fetches random numbers from specified link
             case R.id.retrieve_random_num:
                 new getRandomNum(this).execute(FETCHED_LINK);
                 break;
+            // Resets text to placeholder values and colors to initial values
             case R.id.btn_clear:
                 randomText1.setText(R.string.str_numPlaceholder);
                 randomText2.setText(R.string.str_numPlaceholder);
@@ -123,27 +152,44 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 randomButtons[1].setBackgroundColor(getResources().getColor(R.color.colorTextViewBG));
                 randomButtons[2].setBackgroundColor(getResources().getColor(R.color.colorTextViewBG));
                 randomButtons[3].setBackgroundColor(getResources().getColor(R.color.colorTextViewBG));
-
         }
+    } // onClick() method end
 
-    }
-
+    /**
+     * Method responsible for handling drag events
+     *
+     * @param v     current view being dragged
+     * @param event state/type of drag action
+     * @return true if being dragged / false if not dragged
+     */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean onDrag(View v, DragEvent event) {
+        /*
+         * Checks the type of drag action and executes commands based on the drag event
+         */
         switch (event.getAction()) {
+            // When dragging into the card, highlight the card (display highlighted card layout)
             case DragEvent.ACTION_DRAG_ENTERED:
                 v.setBackground(ContextCompat.getDrawable(this, R.drawable.card_highlighted));
                 break;
+            // When not/finished dragging, return the card color to default state (display normal card)
             case DragEvent.ACTION_DRAG_EXITED:
                 v.setBackground(ContextCompat.getDrawable(this, R.drawable.card_normal));
                 break;
+            /* When text is dropped on the view (card), if the correct number is placed append
+             * the number to the text on the card
+             */
             case DragEvent.ACTION_DROP:
+                // current card
                 View view = (View) event.getLocalState();
                 TextView itemDropped = (TextView) view;
+
+                // get the string of the fetched integer value
                 int fetchedValue = Integer.valueOf((String) itemDropped.getText());
                 int multipleOf = -1;
+                // check the multiple values based on the card
                 if (v.getId() == R.id.card_multiple_2) {
                     multipleOf = 2;
                 } else if (v.getId() == R.id.card_multiple_3) {
@@ -153,31 +199,44 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 } else if (v.getId() == R.id.card_multiple_10) {
                     multipleOf = 10;
                 }
-
+                /*
+                 * When the fetched value is the multiple of a card append the fetched value as a
+                 * string to the text on the card
+                 */
                 if (multipleOf > 0) {
                     if (fetchedValue % multipleOf == 0) {
                         String cardText = (String) ((TextView) v).getText();
                         cardText = cardText + "\n" + fetchedValue;
                         ((TextView) v).setText(cardText);
-
+                        // if fetched value is a multiple of the card, allow it to be dropped
                         itemDropped.setOnTouchListener(new View.OnTouchListener() {
                             @Override
                             public boolean onTouch(View v, MotionEvent event) {
                                 return true;
                             }
                         });
+                        // remove the fetched number text on the text view box
                         itemDropped.setText("");
 
                     }
                 }
+                // remove highlight of card and return card to default colors
                 v.setBackground(ContextCompat.getDrawable(this, R.drawable.card_normal));
                 break;
         }
         return true;
     }
 
+    /**
+     * Responsible for the devices touch events
+     *
+     * @param v     the current view being touched
+     * @param event the state/type of touch being executed
+     * @return true if touch executed, false if not touched
+     */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        // if text view is touched, create a shadow and initiate drag
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             ClipData clip = ClipData.newPlainText("", "");
             View.DragShadowBuilder shadow = new View.DragShadowBuilder(v);
@@ -187,15 +246,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return false;
     }
 
-
+    /**
+     * Method responsible for reading the JSON data from the specified URL
+     *
+     * @param myUrl specified url linking to the JSON data file
+     * @return returns the String of JSON data
+     */
     public String readJSONData(String myUrl) throws IOException {
         InputStream inputStream = null;
+        // displays only the first 500 characters retrieved from the web page
         int length = 2500;
 
+        /* obtains a new HttpURLConnection by opening the connection and casts the
+         * result to HttpURLConnection
+         */
         URL url = new URL(myUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
         try {
+            // prepares the connection request
             connection.setReadTimeout(1000);
             connection.setConnectTimeout(1500);
             connection.setRequestMethod("GET");
@@ -224,11 +293,9 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     /**
      * Reads an InputStream and converts it to a String
      *
-     * @param stream
-     * @param len
-     * @return
-     * @throws IOException
-     * @throws UnsupportedEncodingException
+     * @param stream the current input stream
+     * @param len    the length of the stream
+     * @return the String value of the stream
      */
     public String readStream(InputStream stream, int len) throws IOException {
         Reader reader;
@@ -238,10 +305,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return new String(buffer);
     }
 
-    // Inner Async Class:
-
+    /**
+     * Inner AsyncTask class for handling the fetching of the random
+     * number in an asynchronous thread
+     */
     private class getRandomNum extends AsyncTask<String, Void, String> {
-
+        // FIELDS //
         Exception exception = null;
         View.OnTouchListener listener;
 
@@ -259,16 +328,25 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             return null;
         }
 
+        /**
+         * Takes the JSON Result as a string and parses it
+         *
+         * @param result the JSON result that is parsed
+         */
         @TargetApi(Build.VERSION_CODES.KITKAT)
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         protected void onPostExecute(String result) {
             try {
+                // creates new JSON object with key/value mapping from the JSON string
                 JSONObject jsonObj = new JSONObject(result);
                 JSONArray randomArray = jsonObj.getJSONArray("data");
 
                 String toastMsg = "RETRIEVED NUMBERS: ";
-
+                /*
+                 * Loop through the JSON Array and get each integer values and
+                 * set the integers as text in the text view
+                 */
                 for (int i = 0; i < randomArray.length(); i++) {
                     int val = (Integer) randomArray.get(i);
                     toastMsg = toastMsg + val + ", ";
@@ -294,14 +372,12 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 toastMsg = toastMsg.substring(0, toastMsg.length() - 1);
                 Toast.makeText(getBaseContext(), toastMsg, Toast.LENGTH_LONG).show();
             } catch (Exception e) {
+                // When retrieval of integers fails:
                 Log.d("getRandomNum", e.getLocalizedMessage());
                 Toast.makeText(getBaseContext(), "Retrieval Failed", Toast.LENGTH_SHORT).show();
             }
         }
-
-
     }
-
 
 } // MainActivity class end
 
