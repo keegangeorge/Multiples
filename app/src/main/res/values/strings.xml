@@ -3,8 +3,8 @@
     <string name="str_retrieve_random_num">Retrieve random numbers</string>
     <string name="str_clear">Clear</string>
     <string name="str_numPlaceholder">___</string>
-    <string name="str_multiple_2">Multiple of 2</string>
-    <string name="str_multiple_3">Multiple of 3</string>
-    <string name="str_multiple_10">Multiple of 10</string>
-    <string name="str_multiple_5">Multiple of 5</string>
+    <string name="str_multiple_2">Multiples of 2</string>
+    <string name="str_multiple_3">Multiples of 3</string>
+    <string name="str_multiple_10">Multiples of 10</string>
+    <string name="str_multiple_5">Multiples of 5</string>
 </resources>
