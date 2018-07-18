@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     }
 
+
     @Override
     public boolean onDrag(View v, DragEvent event) {
         switch (event.getAction()) {
@@ -137,6 +138,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                     if (fetchedValue % multipleOf == 0) {
                         String cardText = (String) ((TextView) v).getText();
                         cardText = cardText + "\n" + fetchedValue;
+                        ((TextView) v).setText(cardText);
+
                         itemDropped.setOnTouchListener(new View.OnTouchListener() {
                             @Override
                             public boolean onTouch(View v, MotionEvent event) {
