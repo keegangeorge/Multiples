@@ -6,4 +6,5 @@
     <color name="colorAccentAlternate">#2f98ee</color>
     <color name="colorOutline">#7c94c0</color>
     <color name="colorTextViewBG">#536f9f</color>
+    <color name="colorInactive">#7ab94141</color>
 </resources>
