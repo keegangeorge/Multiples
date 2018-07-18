@@ -5,7 +5,6 @@ import android.content.ClipData;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        checkConnection();
 
         // LINKING TEXT VIEW REFERENCES: XML TO JAVA //
         randomText1 = findViewById(R.id.btn_random_1);
@@ -89,6 +88,20 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     } // end onCreate()
 
+
+    public void checkConnection() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            String networkInformation = networkInfo.getTypeName().toString();
+            Toast.makeText(this, "CONNECTED TO: " + networkInformation, Toast.LENGTH_SHORT).show();
+
+        } else {
+            Toast.makeText(this, "NETWORK CONNECTION UNAVAILABLE", Toast.LENGTH_LONG).show();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -105,11 +118,18 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 multipleOfThree.setText(R.string.str_multiple_3);
                 multipleOfTen.setText(R.string.str_multiple_10);
                 multipleOfFive.setText(R.string.str_multiple_5);
+
+                randomButtons[0].setBackgroundColor(getResources().getColor(R.color.colorTextViewBG));
+                randomButtons[1].setBackgroundColor(getResources().getColor(R.color.colorTextViewBG));
+                randomButtons[2].setBackgroundColor(getResources().getColor(R.color.colorTextViewBG));
+                randomButtons[3].setBackgroundColor(getResources().getColor(R.color.colorTextViewBG));
+
         }
 
     }
 
-
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean onDrag(View v, DragEvent event) {
         switch (event.getAction()) {
@@ -170,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
 
     public String readJSONData(String myUrl) throws IOException {
         InputStream inputStream = null;
-        int len = 2500;
+        int length = 2500;
 
         URL url = new URL(myUrl);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -188,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             inputStream = connection.getInputStream();
 
             // Convert InputStream to String:
-            String streamToString = readStream(inputStream, len);
+            String streamToString = readStream(inputStream, length);
             return streamToString;
 
             // Ensures the closing of InputStream after finishing using it in the application:
@@ -210,8 +230,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
      * @throws IOException
      * @throws UnsupportedEncodingException
      */
-    public String readStream(InputStream stream, int len) throws IOException, UnsupportedEncodingException {
-        Reader reader = null;
+    public String readStream(InputStream stream, int len) throws IOException {
+        Reader reader;
         reader = new InputStreamReader(stream, "UTF-8");
         char[] buffer = new char[len];
         reader.read(buffer);
@@ -230,12 +250,24 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         }
 
         @Override
-        protected void onPostExecute(String s) {
+        protected String doInBackground(String... urls) {
             try {
-                JSONObject jsonObj = new JSONObject(s);
+                return readJSONData(urls[0]);
+            } catch (IOException e) {
+                exception = e;
+            }
+            return null;
+        }
+
+        @TargetApi(Build.VERSION_CODES.KITKAT)
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                JSONObject jsonObj = new JSONObject(result);
                 JSONArray randomArray = jsonObj.getJSONArray("data");
 
-                String toastMsg = "";
+                String toastMsg = "RETRIEVED NUMBERS: ";
 
                 for (int i = 0; i < randomArray.length(); i++) {
                     int val = (Integer) randomArray.get(i);
@@ -248,12 +280,15 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                      * prevent touching/dragging the TextView
                      */
                     if (val % 2 != 0 && val % 3 != 0 && val % 5 != 0 && val % 10 != 0) {
+                        randomButtons[i].setBackgroundColor(getResources().getColor(R.color.colorInactive));
                         randomButtons[i].setOnTouchListener(new View.OnTouchListener() {
                             @Override
                             public boolean onTouch(View v, MotionEvent event) {
                                 return false;
                             }
                         });
+                    } else {
+                        randomButtons[i].setBackgroundColor(getResources().getColor(R.color.colorTextViewBG));
                     }
                 }
                 toastMsg = toastMsg.substring(0, toastMsg.length() - 1);
@@ -262,16 +297,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
                 Log.d("getRandomNum", e.getLocalizedMessage());
                 Toast.makeText(getBaseContext(), "Retrieval Failed", Toast.LENGTH_SHORT).show();
             }
-        }
-
-        @Override
-        protected String doInBackground(String... strings) {
-            try {
-                return readJSONData(strings[0]);
-            } catch (IOException e) {
-                exception = e;
-            }
-            return null;
         }
 
 
