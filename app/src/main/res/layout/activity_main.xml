@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimaryDark"
     android:orientation="vertical"
-    android:paddingTop="10dp"
     android:paddingBottom="10dp"
+    android:paddingTop="10dp"
     tools:context=".MainActivity">
 
     <!-- Button Section START -->

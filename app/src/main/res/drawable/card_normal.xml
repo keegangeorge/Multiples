@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- The card's shape stroke to give a border to the card-->
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="@color/colorOutline" />
-            <corners android:radius="10dp" />
-        </shape>
-    </item>
-
     <!-- The card's normal fill -->
     <item>
         <shape android:shape="rectangle">
